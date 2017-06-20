@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta charset="utf8">
+<style type="text/css">
+<!--
+body {
+    background-color:#000000;
+    margin:auto;
+    padding:auto;
+}
+video {
+    height:100%;
+    width:100%;
+    display:none;
+}
+#help{
+    background-color:rgba(255,255,255,0.5);
+    z-index:10;
+    position:absolute;
+    left:0%;
+    top:0%;
+}
+-->
+</style>
+<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+<!--
+$(document).ready( function (){
+    $.get("./json/list.json",function(data){
+        var json = $.parseJSON(data);
+        var num = json.path.length;
+        $.each(json.path,function(index,src){
+            var video = make_player(index,src);
+            var next_id = index + 1;
+            if(next_id == num) next_id = 0;
+            console.log('next_id:' + next_id);
+            video.on("ended",function(){
+                $(this).hide();
+                $(this).get(0).currentTime = 0;
+                $('#video' + next_id).show().get(0).play();
+            });
+        });
+        var first = timeline_checker(json.schedule);
+        console.log('first:' + first);
+        var help = $('<div id="help">[p]: 再生、[s]：一時停止、[r]:リセット、[h]:ヘルプ</div>');
+        $('body').append(help);
+        $("#video" + first).show();
+        $(window).on("keydown", function (e){
+            video_controler(e);
+        });
+        $('body').css({'background-color':'#000000'});
+    },'text');
+});
+function make_player(index,src){
+    var video = $("<video id='video" + index + "' controles preload ></video>");
+    source = $("<source src='" + src + "' type='video/mp4'>");
+    video.append(source);
+    $("body").append(video);
+    return video;
+}
+
+function video_controler(e){
+    var video = $("video:visible").get(0);
+    if(e.keyCode === 80){
+          $('#help').hide();
+        if(video.paused){
+            video.play();
+        }
+    }
+    if(e.keyCode === 83){
+        if(video.played){
+            $('#help').show();
+            video.pause();
+            console.log('paused');
+        }
+    }
+    if(e.keyCode === 82){
+            $('#help').hide();
+            video.pause();
+            video.currentTime = 0;
+    }
+    if(e.keyCode === 72){
+        if( $('#help').css('display') == 'block' ){
+            $('#help').hide();
+        } else {
+            $('#help').show();
+        }
+    }
+}
+
+function timeline_checker(schedule) {
+    var now = new Date();
+    var st = new Date();
+    var ed = new Date();
+    var first = 0;
+    $.each(schedule,function (index,timeline){
+//        console.log(timeline.st);
+//        console.log(timeline.ed);
+
+        var tmp_st = timeline.st.split(/:/);
+//        console.log('st:0:' + tmp_st[0]);
+//        console.log('st:1:' + tmp_st[1]);
+
+        st.setSeconds('00');
+        st.setMinutes(tmp_st[1]);
+        st.setHours(tmp_st[0]);
+        var tmp_ed = timeline.ed.split(/:/);
+        ed.setSeconds('00');
+        ed.setMinutes(tmp_ed[1]);
+        ed.setHours(tmp_ed[0]);
+
+//        console.log('st:' + st.getTime());
+//        console.log('ed:' + ed.getTime());
+
+        if(st < now && now < ed ){
+//            console.log(timeline.first);
+            first = timeline.first;
+            return false;
+        }
+    });
+    return first;
+}
+
+
+-->
+</script>
+</head>
+<body>
+</body>
+</html>
