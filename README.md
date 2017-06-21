@@ -24,13 +24,14 @@ jquery plugin 化
 
 ## キーボード操作
 
-    |key|動作|詳細|
-    |----|----|----|
-    |[f5] or [ctrl + R]|reload|ブラウザの再読み込み|
-    |[p]|play|再生|
-    |[s]|parse|一時停止|
-    |[r]|reset|先頭にリセット|
-    |[h]|help|ヘルプ|
+|key|動作|詳細|
+|----|----|----|
+|[f5] or [ctrl + R]|reload|ブラウザの再読み込み、jsonファイル変更後使う|
+|[p]|play|再生|
+|[s]|parse|一時停止|
+|[r]|reset|スケジュールに合わせて、先頭にリセット。スケジュール該当しない場合は、path配列の先頭|
+|[h]|help|ヘルプ表示/非表示|
+|[i]|info|ヘルプ表示時のみ動画情報表示/非表示|
 
 ## フォルダ構成（2017/06/20現在）
 
@@ -51,7 +52,8 @@ jquery plugin 化
     {
         "path":[
             "./video/kaeru.mp4",
-            "./video/oni.mp4"
+            "./video/oni.mp4",
+            "./video/hone.mp4"
         ],
         "schedule":[
             {"st":"09:00","ed":"11:00","first":0},
