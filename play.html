@@ -23,12 +23,13 @@ video {
 -->
 </style>
 <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="./json/list.json"></script>
 <script type="text/javascript">
 <!--
-var json;
+//var json;
 $(document).ready( function (){
-    $.get("./json/list.json",function(data){
-        json = $.parseJSON(data);
+//    $.get("./json/list.json",function(data){
+//        json = $.parseJSON(data);
         var num = json.path.length;
         $.each(json.path,function(index,src){
             var $video = make_player(index,src);
@@ -52,7 +53,7 @@ $(document).ready( function (){
         });
         $('body').css({'background-color':'#000000'});
     },'text');
-});
+//});
 
 function make_player(index,src){
     var video = $("<video id='video" + index + "' controles preload ></video>");
