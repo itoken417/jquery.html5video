@@ -8,6 +8,7 @@
 - キーボードで操作
 - 現状は、これで十分。
     - 時間調整は、リストで同じ動画入れればよい？
+- Google Chrome でローカルAjax 動かなかったので修正
 
 ## Jqueryを使用しています。
 
@@ -49,7 +50,7 @@ jquery plugin 化
 
 ### list.json sample
 
-    {
+    json = {
         "path":[
             "./video/kaeru.mp4",
             "./video/oni.mp4",
