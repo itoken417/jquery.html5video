@@ -20,22 +20,22 @@ video {
     left:0%;
     top:0%;
 }
+#etc {
+    color:#ff9999;
+}
 -->
 </style>
 <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="./json/list.json"></script>
 <script type="text/javascript">
 <!--
-//var json;
+var first;
 $(document).ready( function (){
-//    $.get("./json/list.json",function(data){
-//        json = $.parseJSON(data);
         var num = json.path.length;
         $.each(json.path,function(index,src){
             var $video = make_player(index,src);
             var next_id = index + 1;
             if(next_id == num) next_id = 0;
-//            console.log('next_id:' + next_id);
             $video.on("ended",function(){
                 $(this).hide();
                 $(this).get(0).currentTime = 0;
@@ -44,10 +44,9 @@ $(document).ready( function (){
                 $next_video.show().get(0).play();
             });
         });
-//        console.log('first:' + first);
-        first_video_set();
-        var help = $('<div id="help">[ctrl + r] or [f5]: 再読み込み<br> [p]: 再生<br>[s]：一時停止<br>[r]:リセット<br>[h]:ヘルプ表示/非表示<br>[i]:ヘルプ表示時に動画情報表示/非表示<div id="info"></div></div>');
+        var help = $('<div id="help"><div id="etc"></div>[ctrl + r] or [f5]: 再読み込み<br> [p]: 再生<br>[s]：一時停止<br>[r]:リセット<br>[h]:ヘルプ表示/非表示<br>[i]:ヘルプ表示時に動画情報表示/非表示<div id="info"></div></div>');
         $('body').append(help);
+        first_video_set();
         $(window).on("keydown", function (e){
             video_controler(e);
         });
@@ -69,9 +68,12 @@ function first_video_set($video){
         $video.get(0).pause();
         $video.get(0).currentTime = 0;
     }
-    var first = timeline_checker(json.schedule);
+    var timeline = timeline_checker(json.schedule);
+    var first = timeline.first;
+    var etc = timeline.etc;
     var $first_video = $("#video" + first);
     info_data_set($first_video);
+    $('#etc').html(etc);
     $first_video.get(0).currentTime = 0;
     $first_video.show();
 }
@@ -90,7 +92,6 @@ function video_controler(e){
     // s key
     if(e.keyCode === 83){
         if(video.played){
-            $('#help').show();
             video.pause();
             console.log('paused');
         }
@@ -122,7 +123,7 @@ function timeline_checker(schedule) {
     var now = new Date();
     var st = new Date();
     var ed = new Date();
-    var first = 0;
+    var first = {"first":"0","etc":""};
     $.each(schedule,function (index,timeline){
 
         var tmp_st = timeline.st.split(/:/);
@@ -136,7 +137,7 @@ function timeline_checker(schedule) {
         ed.setHours(tmp_ed[0]);
 
         if(st < now && now < ed ){
-            first = timeline.first;
+            first = timeline;
             return false;
         }
     });
@@ -153,7 +154,6 @@ function info_data_set($video){
         + '</li></ul>'
     );
 }
-
 -->
 </script>
 </head>

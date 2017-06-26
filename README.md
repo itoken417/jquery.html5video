@@ -53,19 +53,20 @@ jquery plugin 化
     json = {
         "path":[
             "./video/kaeru.mp4",
-            "./video/oni.mp4",
-            "./video/hone.mp4"
+            "./video/hone.mp4",
+            "./video/oni.mp4"
         ],
         "schedule":[
-            {"st":"09:00","ed":"11:00","first":0},
-            {"st":"11:00","ed":"12:00","first":2},
-            {"st":"12:00","ed":"14:00","first":1},
-            {"st":"14:00","ed":"15:00","first":0},
-            {"st":"15:00","ed":"16:30","first":2},
-            {"st":"17:00","ed":"17:05","first":1},
-            {"st":"17:55","ed":"18:00","first":0}
+            {"st":"09:00","ed":"11:00","first":0,"etc":"09:00 start from kaeru"},
+            {"st":"11:00","ed":"12:00","first":1,"etc":"11:00 start from hone"},
+            {"st":"12:00","ed":"14:00","first":2,"etc":"12:00 start from oni"},
+            {"st":"14:00","ed":"15:00","first":0,"etc":"14:00 start from kaeru"},
+            {"st":"15:00","ed":"16:30","first":1,"etc":"15:00 start from hone"},
+            {"st":"17:00","ed":"17:05","first":2,"etc":"17:00 start from oni"},
+            {"st":"17:55","ed":"18:00","first":0,"etc":"17:55 start from kaeru"},
+            {"st":"18:00","ed":"20:00","first":1,"etc":"18:00 start from hone"}
         ]
-    }
+    };
 
 ## 項目説明
 
@@ -75,5 +76,6 @@ jquery plugin 化
 - schedule
     - 「st」から「ed」の時間内で、最初にどのmp4を再生するかを記述
     - スケジュール時間外は、「pash」配列の先頭から
-
+- etc
+    - スケジュールに沿った説明
 
